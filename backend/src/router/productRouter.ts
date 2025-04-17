@@ -5,9 +5,17 @@ import {
   getProducts,
   getProductsByCategory,
 } from "../controllers/productController";
+import uploadMediaMiddleware from "../middleware/uploadMedia";
+import { authCheck, authorizationToAction } from "../middleware/authCheck";
 
 const productRouter = Router();
-productRouter.post("/", addProduct);
+productRouter.post(
+  "/",
+  authCheck,
+  authorizationToAction,
+  uploadMediaMiddleware,
+  addProduct
+);
 productRouter.get("/category/:id", getProductsByCategory);
 productRouter.get("/", getProducts);
 productRouter.get("/:id", getProductById);

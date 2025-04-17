@@ -6,7 +6,9 @@ import { Prisma, PrismaClient } from "../../prisma/generated";
 const prisma = new PrismaClient();
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
+
   try {
+  
     const users = await prisma.user.findMany({
       select: {
         id: true,
