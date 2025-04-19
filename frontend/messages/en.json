@@ -1,9 +1,18 @@
 {
+  "NavLinks": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "NotFound": {
+    "title": "404 Not Found",
+    "message": "The page you are looking for is not found"
+  },
   "AboutPage": {
     "message": "About  xxxxxxxxx ",
     "about": "About us"
   },
   "Home": {
-    "title": "Home"
+    "featured": "Featured Products"
   }
 }

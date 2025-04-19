@@ -2,7 +2,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import "../../globals.css";
-
+import Navbar from "@/components/Navbar";
 export default async function LocaleLayout({
   children,
   params,
@@ -10,7 +10,6 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  // Ensure that the incoming `locale` is valid
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -18,8 +17,11 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className="!bg-red-400">
-        <NextIntlClientProvider locale={locale}>{children}</NextIntlClientProvider>
+      <body className="bg-background text-foreground min-h-screen flex flex-col">
+        <NextIntlClientProvider locale={locale}>
+          <Navbar />
+          <main className="flex-1 flex flex-col">{children}</main>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

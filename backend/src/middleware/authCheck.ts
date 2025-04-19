@@ -7,7 +7,9 @@ export const authCheck = (
 ): void => {
   try {
     const token = req.cookies.authToken;
-    console.log(token);
+    if (!req.body) {
+      req.body = {};
+    }
 
     if (!token) {
       res.status(401).send({ msg: "No token, authorization denied" });
