@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import AnimatedSwitchingButton from "../AnimatedSwitchingButton";
 import { useTranslations } from "next-intl";
+import LanguageButton from "../LanguageButton";
 
 const NavLinks = () => {
   const t = useTranslations("NavLinks");
@@ -45,7 +46,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="flex  items-center justify-between px-4 py-3 backdrop-blur-md bg-gradient-to-tl  from-primary/70  to-indigo-500 dark:bg-primary-light/70 shadow-md rounded-b-2xl  w-full">
+    <header className="flex  items-center justify-between px-4 py-3 bg-gradient shadow-md rounded-b-2xl  w-full">
       {/* Search Bar */}
       <div className="flex  items-center relative  ">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary dark:text-white h-5 w-5" />
@@ -60,7 +61,8 @@ const Navbar = () => {
       <NavLinks />
 
       {/* Right Section */}
-      <div className="flex  items-center justify-end">
+      <div className="flex  items-center gap-2 justify-end">
+        <LanguageButton />
         <AnimatedSwitchingButton
           onSwitch={() => document.body.classList.toggle("dark")}
           isEditable={toggleTheme}

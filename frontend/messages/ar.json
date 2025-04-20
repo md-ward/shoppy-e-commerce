@@ -13,6 +13,23 @@
     "about": "من نحن"
   },
   "Home": {
-    "featured": "منتجات مميزة"
+    "heroTitle": "أنشئ هدايا شخصية سيحبونها",
+    "heroSubtitle": "دفاتر، أقلام، أكواب والمزيد – مخصصة خصيصاً لهم.",
+    "startCustomizing": "ابدأ التخصيص",
+    "shopByCategory": "تسوق حسب الفئة",
+    "viewAll": "عرض الكل",
+    "customize": "تخصيص",
+    "howItWorks": "كيف يعمل",
+    "step1": "اختر منتجًا",
+    "step2": "خصص الاسم أو النص",
+    "step3": "أكمل الطلب",
+    "testimonialsTitle": "ماذا يقول العملاء",
+    "testimonialText": "أحببت الطقم المخصص لابنتي. جودة عالية وتسليم سريع!",
+    "customer": "عميل",
+    "mugs": "اكواب",
+    "pens": "اقلام",
+    "notebooks": "دفاتر",
+    "gifts": "هدايا",
+    "stickers": "ملصقات"
   }
 }

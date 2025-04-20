@@ -17,7 +17,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className="bg-background text-foreground min-h-screen flex flex-col">
+      <body className="bg-background text-foreground dark:bg-background-dark dark:text-foreground-dark min-h-screen flex flex-col">
         <NextIntlClientProvider locale={locale}>
           <Navbar />
           <main className="flex-1 flex flex-col">{children}</main>

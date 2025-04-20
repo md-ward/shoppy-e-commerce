@@ -13,6 +13,22 @@
     "about": "About us"
   },
   "Home": {
-    "featured": "Featured Products"
+    "heroTitle": "Create Personalized Gifts They'll Love",
+    "heroSubtitle": "Custom notebooks, pens, mugs, and more – designed just for them.",
+    "startCustomizing": "Start Customizing",
+    "shopByCategory": "Shop by Category",
+    "viewAll": "View All",
+    "customize": "Customize",
+    "howItWorks": "How It Works",
+    "step1": "Choose a Product",
+    "step2": "Customize Name or Text",
+    "step3": "Place Your Order",
+    "testimonialsTitle": "What Customers Are Saying",
+    "testimonialText": "Absolutely loved the custom set for my daughter. High quality and quick delivery!",
+    "customer": "Customer",
+    "mugs": "Mugs",
+    "pens": "Pens",
+    "notebooks": "Notebooks",
+    "stickers": "Stickers"
   }
 }
