@@ -1,22 +1,24 @@
 "use client";
 import { Moon, Search, Settings, Sun } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AnimatedSwitchingButton from "../AnimatedSwitchingButton";
 import { useTranslations } from "next-intl";
 import LanguageButton from "../LanguageButton";
+import Cookies from "js-cookie";
 
 const NavLinks = () => {
   const t = useTranslations("NavLinks");
 
   const links = [
     { href: "/", label: "home" },
+    { href: "/shop", label: "shop" },
     { href: "/about", label: "about" },
     { href: "/contact", label: "contact" },
   ];
 
   return (
-    <nav className="flex items-center   justify-center  gap-6 bg-white/10 backdrop-blur-md p-2 rounded-full shadow-md dark:bg-white/5">
+    <nav className="flex flex-1 items-center   justify-center  gap-6 bg-white/10 backdrop-blur-md p-2 rounded-full shadow-md dark:bg-white/5">
       {links.map(({ href, label }) => (
         <Link
           key={href}
@@ -36,6 +38,22 @@ const NavLinks = () => {
 
 const Navbar = () => {
   const [toggleTheme, setToggleTheme] = useState<boolean>(false);
+  function onSwitch() {
+    const isDarkMode = document.body.classList.toggle("dark");
+    Cookies.set("theme", isDarkMode ? "dark" : "light", { expires: 7 });
+  }
+
+  // Initialize theme based on cookie
+  useEffect(() => {
+    const savedTheme = Cookies.get("theme");
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark");
+      setToggleTheme(true);
+    } else {
+      document.body.classList.remove("dark");
+      setToggleTheme(false);
+    }
+  }, []);
 
   const handleSignOut = async () => {
     try {
@@ -48,23 +66,25 @@ const Navbar = () => {
   return (
     <header className="flex  items-center justify-between px-4 py-3 bg-gradient shadow-md rounded-b-2xl  w-full">
       {/* Search Bar */}
-      <div className="flex  items-center relative  ">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary dark:text-white h-5 w-5" />
-        <input
-          type="search"
-          placeholder="Search..."
-          className="w-full rounded-full  bg-background/70 dark:bg-white  p-2 pl-10 text-sm text-foreground placeholder-gray-500   focus:outline-none dark:text-white dark:placeholder-white"
-        />
+      <div className=" flex-1   relative  ">
+        <div className="w-[50%]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary dark:text-white h-5 w-5" />
+          <input
+            type="search"
+            placeholder="Search..."
+            className="w-full rounded-full  bg-background/70 dark:bg-white  p-2 pl-10 text-sm text-foreground placeholder-gray-500   focus:outline-none dark:text-white dark:placeholder-white"
+          />
+        </div>
       </div>
 
       {/* Nav Links */}
       <NavLinks />
 
       {/* Right Section */}
-      <div className="flex  items-center gap-2 justify-end">
+      <div className="flex  flex-1 items-center gap-2 justify-end">
         <LanguageButton />
         <AnimatedSwitchingButton
-          onSwitch={() => document.body.classList.toggle("dark")}
+          onSwitch={onSwitch}
           isEditable={toggleTheme}
           handleEditToggle={() => setToggleTheme(!toggleTheme)}
           FirstIcon={

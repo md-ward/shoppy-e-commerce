@@ -1,7 +1,7 @@
 // components/ProductCard.tsx
 import React from "react";
 import Image from "next/image";
-import {  Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 
 type Product = {
   id: string;
@@ -17,7 +17,7 @@ type Product = {
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   return (
-    <div className="group hover:cursor-pointer overflow-hidden relative flex w-64 max-h-80 flex-col items-center justify-start rounded-2xl border border-accent bg-white p-3 shadow-md transition hover:shadow-lg hover:-translate-y-1 duration-200 ease-in-out">
+    <div className="group z-0 hover:cursor-pointer overflow-hidden relative flex w-64 max-h-80 flex-col items-center justify-start rounded-2xl border border-accent bg-white p-3 shadow-md transition hover:shadow-lg hover:-translate-y-1 duration-200 ease-in-out">
       <span className=" z-30 size-fit rounded-md right-0 absolute top-0 bg-white p-0.5 m-0.5 hover:text-red-500 shadow-sm">
         <Heart></Heart>
       </span>
