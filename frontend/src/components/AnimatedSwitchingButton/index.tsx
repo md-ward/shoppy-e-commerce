@@ -4,13 +4,11 @@ import React, { JSX } from "react";
 const AnimatedSwitchingButton = ({
   onSwitch,
   isEditable,
-  handleEditToggle,
   FirstIcon,
   SecondIcon,
 }: {
   onSwitch: () => void;
   isEditable: boolean;
-  handleEditToggle: () => void;
   FirstIcon: JSX.Element;
   SecondIcon: JSX.Element;
 }) => {
@@ -18,7 +16,6 @@ const AnimatedSwitchingButton = ({
     <button
       className="text-white"
       onClick={() => {
-        handleEditToggle();
         onSwitch();
       }}
     >

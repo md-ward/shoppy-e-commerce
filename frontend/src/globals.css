@@ -17,7 +17,6 @@
   --color-foreground-dark: #f8fafc;
   --color-bg-gradient: ;
 }
-
 .bg-gradient {
   @apply backdrop-blur-md bg-gradient-to-tl  from-primary/70  to-indigo-500 dark:bg-primary-light/70;
 }

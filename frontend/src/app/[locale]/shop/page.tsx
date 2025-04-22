@@ -1,58 +1,58 @@
 "use client";
 
-import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "@/components/Products/productCard";
 import { FilteringSidebar } from "./components/filteringSidebar";
+import axios from "axios";
 
-const fakeProducts = Array.from({ length: 30 }, (_, i) => ({
-  id: i + 1,
-  name: `Product ${i + 1}`,
-  description: `This is a description for product ${i + 1}`,
-  images: [
-    `https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`,
-  ],
-  category: `Category ${Math.floor(Math.random() * 5) + 1}`,
-  price: (Math.random() * 100).toFixed(2),
-}));
+const PRODUCTS_PER_PAGE = 8;
 
-const productsPerPage = 8;
-
-const ProductsPage = () => {
+const ShopPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const currentPage = Number(searchParams.get("page")) || 1;
 
-  const [filteredProducts, setFilteredProducts] = useState(fakeProducts);
+  const page = parseInt(searchParams.get("page") || "1");
+  const [products, setProducts] = useState([]);
+  const [total, setTotal] = useState(0);
 
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-  const paginatedProducts = filteredProducts.slice(
-    (currentPage - 1) * productsPerPage,
-    currentPage * productsPerPage,
-  );
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:8000/products?page=${page}`,
+        );
+        setProducts(res.data.products);
+        setTotal(res.data.total);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      }
+    };
 
-  function handleChangePage(page: number) {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    router.push(`/products?page=${page}`);
-  }
+    fetchProducts();
+  }, [page]);
+
+  const totalPages = Math.ceil(total / PRODUCTS_PER_PAGE);
 
   return (
-    <div className="flex min-h-screen p-8">
+    <div className="relative flex min-h-screen gap-8 p-8">
       <FilteringSidebar />
-      <div className="mt-8 flex w-full flex-col items-center justify-center">
+      <div className="flex flex-col justify-between">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {paginatedProducts.map((product) => (
+          {products.map((product: any) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
+
+        {/* Pagination */}
         <nav
           className="mt-10 flex items-center justify-center gap-2"
           aria-label="Pagination"
         >
           <button
-            onClick={() => handleChangePage(currentPage - 1)}
-            disabled={currentPage <= 1}
+            onClick={() => router.push(`/shop?page=${page - 1}`)}
+            disabled={page <= 1}
             className="rounded-md border bg-white p-2 disabled:opacity-40"
           >
             <ChevronLeft className="h-5 w-5" />
@@ -61,9 +61,9 @@ const ProductsPage = () => {
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index}
-              onClick={() => handleChangePage(index + 1)}
+              onClick={() => router.push(`/shop?page=${index + 1}`)}
               className={`rounded-md border px-4 py-2 ${
-                currentPage === index + 1 ? "bg-black text-white" : "bg-white"
+                page === index + 1 ? "bg-black text-white" : "bg-white"
               }`}
             >
               {index + 1}
@@ -71,8 +71,8 @@ const ProductsPage = () => {
           ))}
 
           <button
-            onClick={() => handleChangePage(currentPage + 1)}
-            disabled={currentPage >= totalPages}
+            onClick={() => router.push(`/shop?page=${page + 1}`)}
+            disabled={page >= totalPages}
             className="rounded-md border bg-white p-2 disabled:opacity-40"
           >
             <ChevronRight className="h-5 w-5" />
@@ -83,4 +83,4 @@ const ProductsPage = () => {
   );
 };
 
-export default ProductsPage;
+export default ShopPage;
