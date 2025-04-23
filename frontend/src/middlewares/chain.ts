@@ -1,6 +1,5 @@
 import { getLocale } from "next-intl/server";
 import { NextRequest, NextResponse } from "next/server";
-
 // Chain middlewares
 export function chainMiddleware(
   ...middlewares: Array<(request: NextRequest) => Promise<NextResponse | void>>
@@ -15,21 +14,28 @@ export function chainMiddleware(
     return NextResponse.next(); // Continue if no middleware interrupts
   };
 }
-
-// Admin Auth Middleware
 export async function adminAuthMiddleware(request: NextRequest) {
-  const locale = await getLocale(); // e.g., "en", "ar", etc.
   const pathname = request.nextUrl.pathname;
-  const isLoginPath = pathname === `/${locale}/admin/login`;
-  if (pathname.startsWith(`/${locale}/admin`) && !isLoginPath) {
-    const token = request.cookies.get("token")?.value;
 
-    if (!token) {
-      const url = request.nextUrl.clone();
-      url.pathname = `/${locale}/admin/login`;
-      return NextResponse.redirect(url);
-    } else {
-      return NextResponse.next();
-    }
+  // If no locale is present, rewrite with default "en" locale
+  if (!pathname.startsWith("/ar") && !pathname.startsWith("/en")) {
+    const defaultLocale = await getLocale(); // e.g., returns "en"
+    console.log({ defaultLocale });
+
+    const rewrittenPath = `/${defaultLocale}${pathname}`;
+    return NextResponse.redirect(new URL(rewrittenPath, request.url));
+  }
+
+  const token = request.cookies.get("AdToken");
+  // Admin path check (excluding /login page)
+  if (
+    pathname.match(/^\/(en|ar)\/admin(\/.*)?$/) &&
+    !pathname.endsWith("/login") &&
+    !token
+  ) {
+    const locale = pathname.startsWith("/ar") ? "ar" : "en";
+    return NextResponse.redirect(
+      new URL(`/${locale}/admin/login`, request.url),
+    );
   }
 }

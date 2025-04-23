@@ -1,8 +1,9 @@
-import { Eye, EyeClosed, EyeOff } from "lucide-react";
+"use client";
+import AnimatedSwitchingButton from "@/components/AnimatedSwitchingButton";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import AnimatedSwitchingButton from "../AnimatedSwitchingButton";
 
-const Signup = () => {
+export const Signup = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
     <form className="bg-gradient text-foreground dark:text-foreground-dark flex w-full max-w-3xl flex-col gap-4 rounded-2xl p-6 shadow-xl">
@@ -36,7 +37,7 @@ const Signup = () => {
         <label htmlFor="password" className="text-sm font-medium uppercase">
           Password
         </label>
-        <span className="flex relative items-center">
+        <span className="relative flex items-center">
           <input
             type={showPassword ? "text" : "password"}
             name="password"
@@ -44,7 +45,7 @@ const Signup = () => {
             className="border-background dark:border-background-dark dark:bg-secondary-dark text-foreground dark:text-foreground-dark focus:ring-primary relative rounded-md border bg-white/60 px-4 py-2 focus:ring-2 focus:outline-none"
           />
 
-          <span className="dark:*:text-secondary *:text-foreground  absolute right-1 flex h-full   items-center justify-center *:cursor-pointer">
+          <span className="dark:*:text-secondary *:text-foreground absolute right-1 flex h-full items-center justify-center *:cursor-pointer">
             <AnimatedSwitchingButton
               isEditable={showPassword}
               key={showPassword ? "eye" : "eye-off"}
@@ -65,5 +66,3 @@ const Signup = () => {
     </form>
   );
 };
-
-export default Signup;
