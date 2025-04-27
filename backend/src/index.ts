@@ -16,7 +16,7 @@ app.use("/public", express.static("./public"));
 app.use(
   cors({
     credentials: true,
-    origin:'*',
+    origin: "http://localhost:3000",
   })
 );
 app.use("/users", userRouter);

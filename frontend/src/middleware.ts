@@ -1,9 +1,13 @@
 import createMiddleware from "next-intl/middleware";
 import { adminAuthMiddleware, chainMiddleware } from "./middlewares/chain";
 import { routing } from "./i18n/routing";
+import { NextRequest } from "next/server";
 
 // ✅ Correct usage: pass each middleware as a separate argument
 export const middleware = chainMiddleware(
+  async (request: NextRequest) => {
+    request.headers.set("x-current-path", request.nextUrl.pathname);
+  },
   adminAuthMiddleware,
   async (request) => createMiddleware(routing)(request),
 );

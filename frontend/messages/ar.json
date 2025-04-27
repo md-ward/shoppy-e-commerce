@@ -3,8 +3,30 @@
     "home": "الصفحة الرئيسية",
     "shop": "تسوق",
     "about": "نبذة عنا",
-    "contact": "اتصل بنا"
+    "contact": "اتصل بنا",
+    "user": "المستخدم"
   },
+  "AdminSidebar": {
+    "dashboard": "لوحة التحكم",
+    "orders": "الطلبات",
+    "products": "المنتجات",
+    "customers": "العملاء",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج",
+    "users": "المستخدمون",
+    "home": "الصفحة الرئيسية",
+    "analytics": "التحليلات",
+    "reports": "التقارير",
+    "promotions": "العروض الترويجية",
+    "inventory": "المخزون",
+    "shipping": "الشحن",
+    "payments": "المدفوعات",
+    "coupons": "الكوبونات",
+    "reviews": "المراجعات",
+    "categories": "الفئات",
+    "addProduct": "إضافة منتج"
+  },
+
   "NotFound": {
     "title": "404\n عذرا لم يتم العثور على الصفحة",
     "message": "العودة إلى الصفحة الرئيسية"

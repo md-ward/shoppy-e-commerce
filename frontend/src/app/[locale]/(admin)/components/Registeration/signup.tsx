@@ -1,12 +1,12 @@
 "use client";
-import AnimatedSwitchingButton from "@/components/AnimatedSwitchingButton";
+import AnimatedSwitchingButton from "@/app/[locale]/(users)/components/AnimatedSwitchingButton";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
 export const Signup = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
-    <form className="bg-gradient text-foreground dark:text-foreground-dark flex w-full max-w-3xl flex-col gap-4 rounded-2xl p-6 shadow-xl">
+    <form className="border-accent gap-4  !size-fit flex flex-col bg-background h-fit w-full max-w-xs rounded-md border p-11 shadow **:[&_input]:shadow">
       <div className="flex flex-col gap-1">
         <label htmlFor="name" className="text-sm font-medium uppercase">
           Name
@@ -33,7 +33,7 @@ export const Signup = () => {
         />
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 **:w-full">
         <label htmlFor="password" className="text-sm font-medium uppercase">
           Password
         </label>
@@ -45,7 +45,7 @@ export const Signup = () => {
             className="border-background dark:border-background-dark dark:bg-secondary-dark text-foreground dark:text-foreground-dark focus:ring-primary relative rounded-md border bg-white/60 px-4 py-2 focus:ring-2 focus:outline-none"
           />
 
-          <span className="dark:*:text-secondary *:text-foreground absolute right-1 flex h-full items-center justify-center *:cursor-pointer">
+          <span className="dark:*:text-secondary *:text-foreground absolute right-1 flex h-full !w-fit items-center justify-center *:cursor-pointer">
             <AnimatedSwitchingButton
               isEditable={showPassword}
               key={showPassword ? "eye" : "eye-off"}
@@ -59,7 +59,7 @@ export const Signup = () => {
 
       <button
         type="submit"
-        className="bg-primary dark:bg-accent-dark hover:bg-accent mt-4 rounded-md py-2 font-semibold text-white transition-colors hover:cursor-pointer"
+        className="bg-primary w-full dark:bg-accent-dark hover:bg-accent mt-4 rounded-md py-2 font-semibold text-white transition-colors hover:cursor-pointer"
       >
         Sign Up
       </button>

@@ -5,8 +5,9 @@ import {
   getProducts,
   getProductsByCategory,
 } from "../controllers/productController";
-import uploadMediaMiddleware from "../middleware/uploadMedia";
 import { authCheck, authorizationToAction } from "../middleware/authCheck";
+import uploadMediaMiddleware from "../middleware/uploadMedia";
+
 
 const productRouter = Router();
 productRouter.post(

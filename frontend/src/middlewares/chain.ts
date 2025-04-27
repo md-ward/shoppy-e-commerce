@@ -26,7 +26,7 @@ export async function adminAuthMiddleware(request: NextRequest) {
     return NextResponse.redirect(new URL(rewrittenPath, request.url));
   }
 
-  const token = request.cookies.get("AdToken");
+  const token = request.cookies.get("authToken")?.value;
   // Admin path check (excluding /login page)
   if (
     pathname.match(/^\/(en|ar)\/admin(\/.*)?$/) &&

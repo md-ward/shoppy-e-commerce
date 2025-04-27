@@ -64,6 +64,8 @@ export const newUser = async (req: Request, res: Response): Promise<void> => {
 
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body as typeof req.body;
+  console.log(req.body);
+  
   try {
     const user = await prisma.user.findUnique({
       where: { email: email },
@@ -81,7 +83,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         {
           id: user.id,
           email: user.email,
-          role: user.role,
+          role: user.role, 
         },
         ExpiryOption.oneMonth
       );

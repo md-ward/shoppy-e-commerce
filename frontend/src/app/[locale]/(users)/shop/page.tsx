@@ -3,7 +3,7 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import ProductCard from "@/components/Products/productCard";
+import ProductCard from "@/app/[locale]/(users)/components/Products/productCard";
 import { FilteringSidebar } from "./components/filteringSidebar";
 import axios from "axios";
 

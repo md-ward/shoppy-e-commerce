@@ -9,6 +9,28 @@
     "title": "404 Not Found",
     "message": "The page you are looking for is not found"
   },
+
+  "AdminSidebar": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "products": "Products",
+    "customers": "Customers",
+    "settings": "Settings",
+    "logout": "Logout",
+    "users": "Users",
+    "home": "Home",
+    "analytics": "Analytics",
+    "reports": "Reports",
+    "promotions": "Promotions",
+    "inventory": "Inventory",
+    "shipping": "Shipping",
+    "payments": "Payments",
+    "coupons": "Coupons",
+    "reviews": "Reviews",
+    "categories": "Categories",
+    "addProduct": "Add Product"
+  },
+
   "AboutPage": {
     "message": "About  xxxxxxxxx ",
     "about": "About us"

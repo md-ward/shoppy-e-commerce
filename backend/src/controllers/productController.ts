@@ -30,6 +30,8 @@ export const getProducts = async (req: Request, res: Response) => {
   try {
     const page = req.query.page ? Number(req.query.page) : 1;
     const limit = req.query.limit ? Number(req.query.limit) : 10;
+    const totalProducts = await prisma.product.count();
+    const totalPages = Math.ceil(totalProducts / limit);
     const products = await prisma.product.findMany({
       skip: (page - 1) * limit,
       take: limit,
@@ -45,7 +47,7 @@ export const getProducts = async (req: Request, res: Response) => {
     });
     res
       .status(200)
-      .send({ message: "Products fetched successfully", products });
+      .send({ message: "Products fetched successfully", products, totalPages });
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Error fetching products" });
