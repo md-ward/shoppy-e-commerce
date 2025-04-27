@@ -8,8 +8,10 @@ import { useShallow } from "zustand/shallow";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { setUser, loginUser } = useRegistrationStore(
+  const { setUser, loginUser, error, user } = useRegistrationStore(
     useShallow((state) => ({
+      user: state.user,
+      error: state.error,
       setUser: state.setUser,
       loginUser: state.loginUser,
     })),
@@ -23,12 +25,17 @@ export const Login = () => {
       className="border-accent bg-background flex !size-fit h-fit w-full max-w-xs flex-col gap-4 rounded-md border p-11 shadow **:[&_input]:shadow"
     >
       <div className="flex flex-col gap-1">
+        {error && (
+          <div className="text-sm font-medium text-red-500">{error}</div>
+        )}
+      </div>
+      <div className="flex flex-col gap-1">
         <label htmlFor="email" className="text-sm font-medium uppercase">
           Email
         </label>
         <input
           onChange={(e) => setUser({ email: e.target.value })}
-          value={useRegistrationStore.getState().user?.email}
+          value={user?.email}
           type="email"
           name="email"
           id="email"
@@ -45,7 +52,7 @@ export const Login = () => {
           <input
             type={showPassword ? "text" : "password"}
             onChange={(e) => setUser({ password: e.target.value })}
-            value={useRegistrationStore.getState().user?.password}
+            value={user?.password}
             name="password"
             id="password"
             className="border-background dark:border-background-dark dark:bg-secondary-dark text-foreground dark:text-foreground-dark focus:ring-primary relative rounded-md border bg-white/60 px-4 py-2 focus:ring-2 focus:outline-none"

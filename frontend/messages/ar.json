@@ -1,4 +1,31 @@
 {
+  "Admin": {
+    "Products": {
+      "Add": {
+        "title": "إضافة منتج جديد",
+        "generalInformation": "معلومات عامة",
+        "productName": "اسم المنتج",
+        "brand": "العلامة التجارية",
+        "description": "الوصف",
+        "price": "السعر",
+        "discount": "الخصم",
+        "stockAndCategory": "المخزون والتصنيف",
+        "stock": "المخزون",
+        "category": "التصنيف",
+        "selectCategory": "اختر التصنيف",
+        "productImages": "صور المنتج",
+        "visibility": "الظهور",
+        "published": "منشور",
+        "schedule": "مجدول",
+        "hidden": "مخفي",
+        "tags": "الوسوم",
+        "enterTags": "أدخل وسوم المنتج",
+        "cancel": "إلغاء",
+        "publish": "نشر"
+      }
+    }
+  },
+
   "NavLinks": {
     "home": "الصفحة الرئيسية",
     "shop": "تسوق",

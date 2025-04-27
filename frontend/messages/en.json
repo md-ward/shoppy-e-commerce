@@ -1,4 +1,31 @@
 {
+  "Admin": {
+    "Products": {
+      "Add": {
+        "title": "Add New Product",
+        "generalInformation": "General Information",
+        "productName": "Product Name",
+        "brand": "Brand",
+        "description": "Description",
+        "price": "Price",
+        "discount": "Discount",
+        "stockAndCategory": "Stock and Category",
+        "stock": "Stock",
+        "category": "Category",
+        "selectCategory": "Select Category",
+        "productImages": "Product Images",
+        "visibility": "Visibility",
+        "published": "Published",
+        "schedule": "Schedule",
+        "hidden": "Hidden",
+        "tags": "Tags",
+        "enterTags": "Enter product tags",
+        "cancel": "Cancel",
+        "publish": "Publish"
+      }
+    }
+  },
+
   "NavLinks": {
     "home": "Home",
     "shop": "Shop",

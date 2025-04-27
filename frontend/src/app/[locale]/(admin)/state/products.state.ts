@@ -7,6 +7,7 @@ interface ProductsStore {
   totalPages: number;
   page: number;
   products: Product[];
+  product: Product | null;
   nextPage: () => void;
   previousPage: () => void;
   setPage: (page: number) => void;
@@ -21,6 +22,8 @@ export const useProductsStore = create<ProductsStore>((set, get) => ({
   totalPages: 0,
   products: [],
   loading: false,
+  product: null,
+
   nextPage: () => {
     set((state) => ({ page: state.page + 1 }));
   },
