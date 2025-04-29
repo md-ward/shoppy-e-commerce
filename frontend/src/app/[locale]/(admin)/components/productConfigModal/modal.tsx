@@ -12,7 +12,7 @@ const Modal = ({
   contentType,
 }: {
   onClose: () => void;
-  contentType: "category" | "variant" | null;
+  contentType: "category" | "variant" | null| undefined;
 }) => {
   return (
     <AnimatePresence mode="wait">

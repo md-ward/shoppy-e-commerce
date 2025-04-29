@@ -1,11 +1,11 @@
 "use client";
 import { Moon, Search, Settings, Sun } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import AnimatedSwitchingButton from "../AnimatedSwitchingButton";
 import { useTranslations } from "next-intl";
 import LanguageButton from "../LanguageButton";
 import Cookies from "js-cookie";
+import { Link } from "@/i18n/navigation";
 
 const NavLinks = () => {
   const t = useTranslations("NavLinks");
@@ -21,6 +21,7 @@ const NavLinks = () => {
     <nav className="flex items-center justify-center gap-6 rounded-full bg-white/10 p-2 shadow-md backdrop-blur-md dark:bg-white/5">
       {links.map(({ href, label }) => (
         <Link
+        replace
           key={href}
           href={href}
           className="hover:text-accent relative px-4 py-1.5 text-sm font-medium text-white transition-all duration-300"

@@ -4,7 +4,7 @@ const NotFoundPage = () => {
   const t = useTranslations("NotFound");
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
+    <div className="flex h-full w-full flex-col items-center justify-center bg-accent">
       <h1 className="text-4xl font-bold">{t("title")}</h1>
       <Link href="/">
         {" "}

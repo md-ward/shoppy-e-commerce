@@ -43,6 +43,7 @@ export const useRegistrationStore = create<RegistrationStore>((set, get) => ({
 
         window.location.href = "/admin";
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Login failed", error.response.data.message);
       set({ error: error.response.data.message });

@@ -4,13 +4,13 @@ import axios from "axios";
 import ProductCard from "./productCard";
 
 type Product = {
-  id: string;
+  id: number;
   name: string;
   description: string;
   price: number;
-  images: string[];
+  images: [string];
   category: {
-    id: string;
+    id: number;
     name: string;
   };
 };

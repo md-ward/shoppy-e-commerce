@@ -1,86 +1,88 @@
-"use client";
-
-import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { notFound } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "@/app/[locale]/(users)/components/Products/productCard";
-import { FilteringSidebar } from "./components/filteringSidebar";
+import { Product } from "@/lib/types";
 import axios from "axios";
+import { Link } from "@/i18n/navigation";
+import NotFoundPage from "../not-found";
 
-const PRODUCTS_PER_PAGE = 8;
+const PRODUCTS_PER_PAGE = 10;
 
-const ShopPage = () => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+async function ShopPage(searchParams: {
+  searchParams: Promise<URLSearchParams>;
+}) {
+  //@ts-expect-error page may not be defined
+  const currentPage = +(await searchParams.searchParams).page || 1;
+  console.log({ currentPage });
 
-  const page = parseInt(searchParams.get("page") || "1");
-  const [products, setProducts] = useState([]);
-  const [total, setTotal] = useState(0);
+  if (isNaN(currentPage) || currentPage < 1) {
+    notFound();
+  }
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:8000/products?page=${page}`,
-        );
-        setProducts(res.data.products);
-        setTotal(res.data.total);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-      }
-    };
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/products?limit=${PRODUCTS_PER_PAGE}&page=${currentPage}`,
+  );
 
-    fetchProducts();
-  }, [page]);
+  const products: Product[] = data.products;
+  const totalPages: number = data.totalPages;
 
-  const totalPages = Math.ceil(total / PRODUCTS_PER_PAGE);
+  if (currentPage > totalPages && totalPages !== 0) {
+    return <NotFoundPage />;
+  }
 
   return (
-    <div className="relative flex min-h-screen gap-8 p-8">
-      <FilteringSidebar />
-      <div className="flex flex-col justify-between">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {products.map((product: any) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+    <div className="container flex w-full flex-col items-center py-4">
+      <div className="dark:!bg-background-dark grid !h-full gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 dark:text-white">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
 
-        {/* Pagination */}
-        <nav
-          className="mt-10 flex items-center justify-center gap-2"
-          aria-label="Pagination"
-        >
-          <button
-            onClick={() => router.push(`/shop?page=${page - 1}`)}
-            disabled={page <= 1}
-            className="rounded-md border bg-white p-2 disabled:opacity-40"
+      {/* Pagination */}
+      <nav
+        className="mt-10 flex flex-wrap items-center justify-center gap-2"
+        aria-label="Pagination"
+      >
+        {currentPage > 1 ? (
+          <Link
+            href={`/shop?page=${currentPage - 1}`}
+            className="rounded-md border bg-white p-2"
           >
             <ChevronLeft className="h-5 w-5" />
-          </button>
+          </Link>
+        ) : (
+          <div className="rounded-md border bg-gray-100 p-2 opacity-50">
+            <ChevronLeft className="h-5 w-5" />
+          </div>
+        )}
 
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => router.push(`/shop?page=${index + 1}`)}
-              className={`rounded-md border px-4 py-2 ${
-                page === index + 1 ? "bg-black text-white" : "bg-white"
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
+        {Array.from({ length: totalPages }, (_, index) => (
+          <Link
+            key={index + 1}
+            href={`/shop?page=${index + 1}`}
+            className={`rounded-md border px-3 py-1.5 text-sm ${
+              currentPage === index + 1 ? "bg-black text-white" : "bg-white"
+            }`}
+          >
+            {index + 1}
+          </Link>
+        ))}
 
-          <button
-            onClick={() => router.push(`/shop?page=${page + 1}`)}
-            disabled={page >= totalPages}
-            className="rounded-md border bg-white p-2 disabled:opacity-40"
+        {currentPage < totalPages ? (
+          <Link
+            href={`/shop?page=${currentPage + 1}`}
+            className="rounded-md border bg-white p-2"
           >
             <ChevronRight className="h-5 w-5" />
-          </button>
-        </nav>
-      </div>
+          </Link>
+        ) : (
+          <div className="rounded-md border bg-gray-100 p-2 opacity-50">
+            <ChevronRight className="h-5 w-5" />
+          </div>
+        )}
+      </nav>
     </div>
   );
-};
+}
 
 export default ShopPage;
