@@ -1,8 +1,24 @@
 export interface Product {
   id: number;
-  name: string;
-  description: string;
+  ar_name?: string;
+  ar_description?: string;
+  en_name?: string;
+  en_description?: string;
   price: number;
   category: { id: number; name: string };
-  images: [string];
+  images: [Attachment];
+}
+interface Attachment {
+  id: number;
+  url: string;
+}
+
+interface Category {
+  id: number;
+  name: string;
+}
+interface Variant {
+  id: number;
+  name: string;
+  value: string; 
 }

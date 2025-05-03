@@ -1,4 +1,16 @@
 {
+  "Cart": {
+    "title": "عربة التسوق",
+    "emptyCart": "عربة التسوق فارغة",
+    "subtotal": "المجموع الفرعي",
+    "total": "المجموع الكلي",
+    "checkout": "الدفع",
+    "remove": "إزالة",
+    "quantity": "الكمية",
+    "product": "المنتج",
+    "price": "السعر",
+    "discount": "الخصم"
+  },
   "Admin": {
     "Products": {
       "Add": {

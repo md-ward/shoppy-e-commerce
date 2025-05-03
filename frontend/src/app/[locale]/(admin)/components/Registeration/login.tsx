@@ -5,11 +5,13 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useRegistrationStore } from "../../state/registration.state";
 import { useShallow } from "zustand/shallow";
+import Loading from "../../admin/products/loading";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { setUser, loginUser, error, user } = useRegistrationStore(
+  const { setUser, loginUser, error, user, isLoading } = useRegistrationStore(
     useShallow((state) => ({
+      isLoading: state.isLoading,
       user: state.user,
       error: state.error,
       setUser: state.setUser,
@@ -69,13 +71,16 @@ export const Login = () => {
           </span>
         </span>
       </div>
-
-      <button
-        type="submit"
-        className="bg-primary dark:bg-accent-dark hover:bg-accent mt-4 w-full rounded-md py-2 font-semibold text-white transition-colors hover:cursor-pointer"
-      >
-        Login{" "}
-      </button>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <button
+          type="submit"
+          className="bg-primary dark:bg-accent-dark hover:bg-accent mt-4 w-full rounded-md py-2 font-semibold text-white transition-colors hover:cursor-pointer"
+        >
+          Login{" "}
+        </button>
+      )}
 
       <p className="text-foreground dark:text-foreground-dark text-sm">
         Forgot your password?{" "}

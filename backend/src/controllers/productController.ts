@@ -1,28 +1,47 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "../../prisma/generated";
 const prisma = new PrismaClient();
-
 export const addProduct = async (req: Request, res: Response) => {
   try {
-    const { name, description, price, categoryId, stock, filesURLs } = req.body;
+    const {
+      en_name,
+      ar_name,
+      en_description,
+      ar_description,
+      price,
+      categoryId,
+      stock,
+    } = req.body;
 
-    console.log({ name, description, price, categoryId, stock, filesURLs });
+    let filesURLs = req.body.filesURLs;
+    console.log({filesURLs});
+    
+
+    // Make sure filesURLs is parsed if needed (in case JSON comes as string)
+    if (typeof filesURLs === "string") {
+      filesURLs = JSON.parse(filesURLs);
+      
+    }
 
     const product = await prisma.product.create({
       data: {
-        name,
-        description,
+        en_name,
+        ar_name,
+        en_description,
+        ar_description,
         price: Number(price),
-        categoryId: Number(categoryId),
         stock: Number(stock),
-        images: filesURLs,
+        categoryId: Number(categoryId),
+        images: {
+          connect: filesURLs.map((img: { id: number }) => ({ id: img.id })),
+        },
       },
     });
 
     res.status(201).send({ message: "Product added successfully", product });
   } catch (error) {
-    console.error(error);
-    res.status(500).send({ message: "Error adding product" });
+    console.error("Error in addProduct:", error);
+    res.status(500).send({ message: "Error adding product", error });
   }
 };
 
@@ -37,8 +56,10 @@ export const getProducts = async (req: Request, res: Response) => {
       take: limit,
       select: {
         id: true,
-        name: true,
-        description: true,
+        en_name: true,
+        ar_name: true,
+        en_description: true,
+        ar_description: true,
         price: true,
         images: true,
         category: true,
@@ -59,6 +80,9 @@ export const getProductById = async (req: Request, res: Response) => {
     const { id } = req.params;
     const product = await prisma.product.findUnique({
       where: { id: Number(id) },
+      include: {
+        category: true,
+      },
     });
     res.status(200).send({ message: "Product fetched successfully", product });
   } catch (error) {
@@ -70,12 +94,23 @@ export const getProductById = async (req: Request, res: Response) => {
 export const updateProduct = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, description, price, categoryId, stock, images } = req.body;
+    const {
+      ar_description,
+      en_description,
+      ar_name,
+      en_name,
+      price,
+      categoryId,
+      stock,
+      images,
+    } = req.body;
     const product = await prisma.product.update({
       where: { id: Number(id) },
       data: {
-        name,
-        description,
+        ar_description,
+        ar_name,
+        en_description,
+        en_name,
         price,
         categoryId,
         stock,
@@ -123,8 +158,10 @@ export const searchProducts = async (req: Request, res: Response) => {
     const products = await prisma.product.findMany({
       where: {
         OR: [
-          { name: { contains: query } },
-          { description: { contains: query } },
+          { en_name: { contains: query } },
+          { en_description: { contains: query } },
+          { ar_name: { contains: query } },
+          { ar_description: { contains: query } },
         ],
       },
     });

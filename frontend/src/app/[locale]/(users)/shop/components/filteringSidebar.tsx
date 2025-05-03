@@ -46,6 +46,7 @@ export function FilteringSidebar() {
           </label>
           <div className="flex items-center gap-2">
             <input
+            key={'min'}
               type="number"
               min={0}
               placeholder="Min"
@@ -53,6 +54,7 @@ export function FilteringSidebar() {
             />
             <span className="text-sm text-zinc-500 dark:text-zinc-400">to</span>
             <input
+            key={'max'}
               type="number"
               placeholder="Max"
               className="focus:ring-accent w-1/2 rounded-md border border-zinc-300 bg-white p-2 text-sm shadow-sm focus:ring-2 focus:outline-none dark:border-zinc-600 dark:bg-zinc-800"

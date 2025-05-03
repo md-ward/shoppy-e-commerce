@@ -31,8 +31,9 @@ async function ShopPage(searchParams: {
   }
 
   return (
-    <div className="container flex w-full flex-col items-center py-4">
-      <div className="dark:!bg-background-dark grid !h-full gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 dark:text-white">
+    <div className="flex w-full grow flex-col items-center py-4">
+      {/* <FilteringSidebar /> */}
+      <div className="grid !h-full w-full grow gap-8 px-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
@@ -40,18 +41,18 @@ async function ShopPage(searchParams: {
 
       {/* Pagination */}
       <nav
-        className="mt-10 flex flex-wrap items-center justify-center gap-2"
+        className="*:dark:text-foreground mt-10 flex flex-wrap items-center justify-center gap-2"
         aria-label="Pagination"
       >
         {currentPage > 1 ? (
           <Link
             href={`/shop?page=${currentPage - 1}`}
-            className="rounded-md border bg-white p-2"
+            className="rounded-md border bg-white px-3 py-1.5"
           >
             <ChevronLeft className="h-5 w-5" />
           </Link>
         ) : (
-          <div className="rounded-md border bg-gray-100 p-2 opacity-50">
+          <div className="rounded-md border bg-gray-100 px-3 py-1.5 opacity-50">
             <ChevronLeft className="h-5 w-5" />
           </div>
         )}
@@ -61,7 +62,7 @@ async function ShopPage(searchParams: {
             key={index + 1}
             href={`/shop?page=${index + 1}`}
             className={`rounded-md border px-3 py-1.5 text-sm ${
-              currentPage === index + 1 ? "bg-black text-white" : "bg-white"
+              currentPage === index + 1 ? "bg-gradient text-white" : "bg-white"
             }`}
           >
             {index + 1}
@@ -71,12 +72,12 @@ async function ShopPage(searchParams: {
         {currentPage < totalPages ? (
           <Link
             href={`/shop?page=${currentPage + 1}`}
-            className="rounded-md border bg-white p-2"
+            className="rounded-md border bg-white px-3 py-1.5"
           >
             <ChevronRight className="h-5 w-5" />
           </Link>
         ) : (
-          <div className="rounded-md border bg-gray-100 p-2 opacity-50">
+          <div className="rounded-md border bg-gray-100 px-3 py-1.5 opacity-50">
             <ChevronRight className="h-5 w-5" />
           </div>
         )}

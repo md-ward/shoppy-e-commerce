@@ -14,30 +14,40 @@ enum Role {
   User
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  phone     String?
-  role      Role     @default(User)
-  createdAt DateTime @default(now())
-  orders    Order[]
+enum Status {
+  pending
+  approved
+  canceled
+  out_for_delivery
+  delivered
 }
 
-model Product {
-  id          Int         @id @default(autoincrement())
-  name        String
-  description String?
-  barcode     String?
-  price       Float
-  stock       Int
-  images      String[]
-  category    Category    @relation(fields: [categoryId], references: [id])
-  categoryId  Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  orderItems  OrderItem[]
+model User {
+  id            Int        @id @default(autoincrement())
+  name          String
+  email         String     @unique
+  password      String
+  phone         String?
+  role          Role       @default(User)
+  createdAt     DateTime   @default(now())
+  orders        Order[]    @relation("OrderForUser")
+  createdOrders Order[]    @relation("OrderCreatedByAdmin")
+  addresses     Address[]
+  comments      Comments[]
+}
+
+model Address {
+  id            Int     @id @default(autoincrement())
+  user          User    @relation(fields: [userId], references: [id])
+  userId        Int
+  line1         String
+  line2         String?
+  city          String
+  state         String
+  zip           String?
+  country       String?
+  deliveryNotes String?
+  isDefault     Boolean @default(false)
 }
 
 model Category {
@@ -46,29 +56,94 @@ model Category {
   products Product[]
 }
 
-enum Status {
-  pending
-  approved
-  canceled
-  out_for_delivery
+model Product {
+  id             Int           @id @default(autoincrement())
+  en_name        String
+  en_description String?
+  ar_name        String?
+  ar_description String?
+  price          Float
+  stock          Int
+  images         Attachments[] @relation("ProductImages")
+  category       Category      @relation(fields: [categoryId], references: [id])
+  categoryId     Int
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  orderItems     OrderItem[]
+  variations     Variation[]
+  comments       Comments[]
+}
+
+model Variation {
+  id             Int           @id @default(autoincrement())
+  en_name        String
+  en_description String?
+  ar_name        String?
+  ar_description String?
+  price          Float
+  stock          Int
+  images         Attachments[] @relation("VariationImages")
+  product        Product       @relation(fields: [productId], references: [id])
+  productId      Int
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  orderItems     OrderItem[]
+}
+
+model Attachments {
+  id              Int             @id @default(autoincrement())
+  url             String
+  product         Product?        @relation("ProductImages", fields: [productId], references: [id])
+  productId       Int?
+  variation       Variation?      @relation("VariationImages", fields: [variationId], references: [id])
+  variationId     Int?
+  customization   Customizations? @relation(fields: [customizationId], references: [id])
+  customizationId Int?
 }
 
 model Order {
-  id         Int         @id @default(autoincrement())
-  user       User        @relation(fields: [userId], references: [id])
-  userId     Int
-  total      Float
-  status     Status      @default(pending) // e.g., pending, shipped, delivered
-  createdAt  DateTime    @default(now())
-  orderItems OrderItem[]
+  id               Int         @id @default(autoincrement())
+  user             User        @relation("OrderForUser", fields: [userId], references: [id])
+  userId           Int
+  createdBy        User?       @relation("OrderCreatedByAdmin", fields: [createdById], references: [id])
+  createdById      Int?
+  total            Float
+  status           Status      @default(pending)
+  createdAt        DateTime    @default(now())
+  expectedDelivery DateTime?
+  deliveredAt      DateTime?
+  orderItems       OrderItem[]
 }
 
 model OrderItem {
-  id        Int     @id @default(autoincrement())
-  order     Order   @relation(fields: [orderId], references: [id])
-  orderId   Int
-  product   Product @relation(fields: [productId], references: [id])
-  productId Int
-  quantity  Int
-  price     Float // Store price at the time of purchase
+  id             Int              @id @default(autoincrement())
+  order          Order            @relation(fields: [orderId], references: [id])
+  orderId        Int
+  product        Product          @relation(fields: [productId], references: [id])
+  productId      Int
+  variation      Variation?       @relation(fields: [variationId], references: [id])
+  variationId    Int?
+  quantity       Int
+  price          Float // Price at purchase time
+  customizations Customizations[]
+}
+
+model Customizations {
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String?
+  price       Float
+  orderItem   OrderItem     @relation(fields: [orderItemId], references: [id])
+  orderItemId Int
+  attachments Attachments[]
+}
+
+model Comments {
+  id             Int     @id @default(autoincrement())
+  user           User    @relation(fields: [userId], references: [id])
+  userId         Int
+  product        Product @relation(fields: [productId], references: [id])
+  productId      Int
+  isVerifiedSell Boolean @default(false)
+  comment        String
 }

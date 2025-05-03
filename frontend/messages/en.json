@@ -1,4 +1,16 @@
 {
+  "Cart": {
+    "title": "Shopping Cart",
+    "emptyCart": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "quantity": "Quantity",
+    "product": "Product",
+    "price": "Price",
+    "discount": "Discount"
+  },
   "Admin": {
     "Products": {
       "Add": {
