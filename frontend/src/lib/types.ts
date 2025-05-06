@@ -5,20 +5,21 @@ export interface Product {
   en_name?: string;
   en_description?: string;
   price: number;
-  category: { id: number; name: string };
-  images: [Attachment];
+  category: Category;
+  images: Attachment[];
 }
-interface Attachment {
-  id: number;
+export interface Attachment {
+  id: number|string;
   url: string;
 }
 
-interface Category {
+export interface Category {
   id: number;
-  name: string;
+  en_category: string;
+  ar_category?: string;
 }
-interface Variant {
+export interface Variant {
   id: number;
   name: string;
-  value: string; 
+  value: string;
 }

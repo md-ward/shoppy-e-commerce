@@ -1,7 +1,11 @@
 import axios from "axios";
 import ProductImages from "../../components/ProductImages";
-import { Product } from "@/lib/types";
 import Accordion from "../../components/Accordion";
+import { getLocale } from "next-intl/server";
+import {
+  LocaleBasedProduct,
+  productLocaleFormatter,
+} from "@/lib/productLocaleFormatter";
 
 const ProductDetailPage = async ({
   params,
@@ -10,17 +14,19 @@ const ProductDetailPage = async ({
 }) => {
   const id = (await params).id;
 
-  const mainImage = "/mug.jpg";
-  const images = ["/mug.jpg", "/pen.jpg", "/logo.png"];
-  const variants = [
-    { color: "red", size: "small", quantity: 10 },
-    { color: "black", size: "medium", quantity: 10 },
-  ];
-
+  const locale = (await getLocale()) as "en" | "ar";
   const ProductDetails = (await axios
-    .get(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`)
-    .then((res) => res.data.product)) as Product;
-  console.log({ ProductDetails });
+    .get(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) =>
+      productLocaleFormatter(res.data.product, locale),
+    )) as LocaleBasedProduct;
+  console.log({
+    ProductDetails,
+  });
 
   return (
     <section className="text-foreground dark:bg-foreground dark:text-foreground-dark w-full grow bg-white px-4 py-12">
@@ -28,7 +34,10 @@ const ProductDetailPage = async ({
       <div className="mx-auto grid h-full max-w-7xl grid-cols-1 items-stretch gap-10 md:grid-cols-2">
         {/* Product Images */}
         <div className="dark:bg-secondary-dark flex w-fit items-center justify-center rounded-xl p-4">
-          <ProductImages images={images} mainImage={mainImage} />
+          <ProductImages
+            images={ProductDetails.images.map((img) => img.url)}
+            mainImage={ProductDetails.images[0].url}
+          />
         </div>
 
         {/* Product Details */}
@@ -44,7 +53,7 @@ const ProductDetailPage = async ({
               <span className="mb-2 flex items-stretch gap-2">
                 <label htmlFor="categories">Category:</label>
                 <span className="dark:border-accent text-accent-dark inline-flex items-center rounded-md bg-blue-50 p-0.5 px-1 text-xs font-medium ring-1 ring-blue-700/10 ring-inset dark:border dark:bg-transparent">
-                  {ProductDetails.category.name}
+                  {ProductDetails.category}
                 </span>
               </span>
             </div>
@@ -55,7 +64,7 @@ const ProductDetailPage = async ({
               content={ProductDetails.description}
             />
 
-            {/* Variant Section (optional example) */}
+            {/* Variant Section (optional example)
             <div className="space-y-2">
               <h3 className="text-lg font-semibold">Available Variants</h3>
               {variants.map((v, idx) => (
@@ -68,7 +77,7 @@ const ProductDetailPage = async ({
                   <span>Qty: {v.quantity}</span>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
 
           <span className="flex flex-row gap-2">

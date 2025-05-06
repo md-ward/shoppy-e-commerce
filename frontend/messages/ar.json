@@ -1,4 +1,13 @@
 {
+  "ProductCard": {
+    "title": "اسم المنتج",
+    "price": "السعر",
+    "discount": "الخصم",
+    "addToCart": "أضف إلى العربة",
+    "buyNow": "أطلب الآن",
+    "productImages": "صور المنتج",
+    "category": "التصنيف"
+  },
   "Cart": {
     "title": "عربة التسوق",
     "emptyCart": "عربة التسوق فارغة",

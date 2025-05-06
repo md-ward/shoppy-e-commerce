@@ -1,16 +1,23 @@
 import { notFound } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import ProductCard from "@/app/[locale]/(users)/components/Products/productCard";
+import ProductCard from "@/app/[locale]/(users)/shop/components/Products/productCard";
 import { Product } from "@/lib/types";
 import axios from "axios";
 import { Link } from "@/i18n/navigation";
 import NotFoundPage from "../not-found";
+import { getLocale } from "next-intl/server";
+import {
+  LocaleBasedProduct,
+  productLocaleFormatter,
+} from "@/lib/productLocaleFormatter";
 
 const PRODUCTS_PER_PAGE = 10;
 
-async function ShopPage(searchParams: {
+async function ShopPage(
+  searchParams: {
   searchParams: Promise<URLSearchParams>;
-}) {
+}
+) {
   //@ts-expect-error page may not be defined
   const currentPage = +(await searchParams.searchParams).page || 1;
   console.log({ currentPage });
@@ -23,7 +30,10 @@ async function ShopPage(searchParams: {
     `${process.env.NEXT_PUBLIC_API_URL}/products?limit=${PRODUCTS_PER_PAGE}&page=${currentPage}`,
   );
 
-  const products: Product[] = data.products;
+  const locale = (await getLocale()) as "en" | "ar";
+  const products: LocaleBasedProduct[] = data.products.map((product: Product) =>
+    productLocaleFormatter(product, locale),
+  );
   const totalPages: number = data.totalPages;
 
   if (currentPage > totalPages && totalPages !== 0) {
@@ -35,7 +45,7 @@ async function ShopPage(searchParams: {
       {/* <FilteringSidebar /> */}
       <div className="grid !h-full w-full grow gap-8 px-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard locale={locale} key={product.id} product={product} />
         ))}
       </div>
 

@@ -1,4 +1,14 @@
 {
+  "ProductCard": {
+    "title": "Product",
+    "price": "Price",
+    "discount": "Discount",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "productImages": "Product Images",
+    "category": "Category"
+  },
+
   "Cart": {
     "title": "Shopping Cart",
     "emptyCart": "Your cart is empty",
